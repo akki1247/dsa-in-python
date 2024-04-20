@@ -136,11 +136,19 @@ while current.next.data != data:: Enters a loop that iterates until current.next
 current = current.next: Within the loop, updates current to point to the next node in the list, moving forward one node at a time.
 current.next = current.next.next: Once the loop exits, the current node points to the node just before the node to be deleted. To delete the node with the given value, updates the next attribute of current to skip over the node to be deleted, effectively removing it from the list.
 
-    def del_val(self,data):
+    def del_val(self,val):
         current = self.head
-        while current.next.data !=7:
+        while current.next.data != val:
             current = current.next
         current.next = current.next.next
+--------------------- OR --------------------OR------------------------------OR                   
+def del_val(self, val):
+        current = self.head
+        while current.next:
+          if current.next.data == val:
+            current.next = current.next.next            
+          current = current.next
+   
 
 # delete the node by position.
 

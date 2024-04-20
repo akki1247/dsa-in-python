@@ -141,8 +141,28 @@ current.next = current.next.next: Once the loop exits, the current node points t
         while current.next.data !=7:
             current = current.next
         current.next = current.next.next
+
 # delete the node by position.
 
+
+# find the duplicate elements from linked list
+find_duplicates Function:
+Nested Loops: We employ two nested loops to compare elements. The outer loop (current) iterates through the list once. 
+The inner loop (runner) starts from the element after current (current.next) and traverses the remaining list.
+Duplicate Check: Inside the inner loop, if current.data matches runner.data, it indicates a duplicate. In that case, the element's data is printed.
+Early Termination: Once a duplicate is found for current, we use break to exit the inner loop. There's no need to search for more duplicates of the same element further in the list.
+Outer Loop Progress: After checking current with all following elements, the outer loop moves current to the next node, continuing the comparison process
+
+def dup(self):
+        current = self.head
+        while current:
+          runner = current.next
+          while runner:
+            if current.data == runner.data:
+              print(current.data)  # Print duplicate element
+              break  # No need to check further for current element's duplicates
+            runner = runner.next
+          current = current.next
 list = List()
 list.append(4)
 list.append(6)

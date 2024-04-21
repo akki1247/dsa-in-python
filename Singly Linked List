@@ -199,3 +199,4 @@ Advanced Operations:
 6.Find the middle node of a linked list.
 7.Merge two sorted linked lists into one sorted list.
 8.Split a linked list into two halves.
+update first,end,by data, by value: node data

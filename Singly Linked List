@@ -1,31 +1,16 @@
 Creating the node
 Logic:
-self.data = data: Assigns the value of the data parameter to the data attribute of the node. This line sets the data that the node will store.
-self.next = None: Initializes the next attribute of the node to None. 
-This line indicates that initially, the node has no reference to the next node in the list. 
-In a singly linked list, the next attribute points to the next node, and None signifies that the current node is the last node in the list.
 
 class Node:
     def __init__(self,data):
         self.data = data
         self.next = None
 
-Logic:
-self.head = None: Initializes the head attribute of the linked list to None. This line signifies that initially, the linked list is empty, as there are no nodes in the list. When head is None, it indicates that the list has no elements.
-
-class List:
+class Linked:
     def __init__(self):
         self.head = None
-
-Logic:
-new_node = Node(data): Creates a new node with the provided data.
-if self.head is None:: Checks if the linked list is empty by verifying if self.head is None. If the list is empty, it means that there are no existing nodes, so the new node becomes the head of the list. The next attribute of the new node remains None as it is the only node in the list.
-last_node = self.head: If the list is not empty, it initializes a variable last_node to the head of the list. This variable will be used to traverse the list to find the last node.
-while last_node.next:: Enters a loop to traverse the list until it reaches the last node. This loop continues as long as the next attribute of last_node is not None, indicating that there is another node after it.
-last_node = last_node.next: Within the loop, updates last_node to point to the next node in the list, moving forward one node at a time.
-last_node.next = new_node: Once the loop reaches the last node (i.e., last_node.next is None), it sets the next attribute of the last node to the new node. This effectively adds the new node to the end of the list.
-
-    def append(self,data):
+        
+    def append(self,data):                                          # add values into nodes
         new_node = Node(data)
         if self.head is None:
             self.head = new_node
@@ -34,32 +19,49 @@ last_node.next = new_node: Once the loop reaches the last node (i.e., last_node.
         while last_node.next:
             last_node = last_node.next
         last_node.next = new_node
-
-Logic:
-current = self.head: Initializes a variable current to the head of the list. This variable will be used to traverse the list.
-while current:: Enters a loop that iterates as long as current is not None. This loop traverses the list from the beginning to the end.
-print(current.data, end="->"): Within the loop, prints the data of the current node followed by an arrow (->). This displays the data of the current node and indicates that there is more data to follow.
-current = current.next: Updates current to point to the next node in the list, moving forward one node at a time.
-print("None"): After the loop finishes, prints "None". This indicates the end of the linked list.
-
-    def display(self):
-        current = self.head
-        while current:
-            print(current.data,end="->")
-            current= current.next
+    
+    def display(self):                                              #display value of nodes
+        curr = self.head
+        while curr:
+            print(curr.data,end ="-> ")
+            curr = curr.next
         print("None")
-
-# insert node at position
-Logic:
-Create a new node with the provided data.
-Check if the position is 0. If so, insert the new node at the beginning of the list by making it the new head.
-Traverse the list until you reach the node just before the desired position (position - 1), keeping track of the count.
-If the position is out of bounds (greater than the length of the list), print a message and return.
-Otherwise, adjust pointers to insert the new node at the desired position:
-Set the next pointer of the new node to the next pointer of the current node at the desired position.
-Set the next pointer of the current node at the desired position to the new node.
-
-    def pos(self, position, data):
+  
+    #----- all possible deletes ----------------  
+    def begin_del(self):                                             # Delete node from begin
+        if self.head is not None:
+            self.head = self.head.next
+        
+    def end_del1(self):                                              #keep 1 and delete all other
+        curr = self.head
+        while curr.next:
+            curr.next = curr.next.next
+    
+    def end_del(self):                                               #delete node from end
+        curr = self.head
+        while curr.next.next is not None:
+            curr = curr.next
+        curr.next = None
+        
+    def val_del(self,data):                                          #delete node by value
+        current = self.head
+        while current.next.data != data:
+            current = current.next
+        current.next = current.next.next
+    
+    #-------- All Possible inserts ------------------
+    def end_ins(self,data):                                          # insert node at end
+        curr = self.head
+        while curr.next is not None:
+            curr = curr.next
+        curr.next = Node(data)
+        
+    def beg_ins(self,data):                                           # insert node at begin
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+    
+    def pos_ins(self, position, data):                                 ## insert node at position
         new_node = Node(data)
         if position == 0:
             new_node.next = self.head
@@ -75,18 +77,8 @@ Set the next pointer of the current node at the desired position to the new node
             return
         new_node.next = current.next
         current.next = new_node
-        
-# insert node value after a particular data
-Logic:
-Create a new node with the provided data.
-Traverse the list:
-If the current node's data matches the given value, insert the new node after this node.
-If the value is not found in the list, print a message and return.
-To insert the new node after the node with the given value:
-Set the next pointer of the new node to the next pointer of the current node.
-Set the next pointer of the current node to the new node.
-
-    def value(self, value, data):
+    
+    def ins_value(self, value, data):                                    ## insert value after a particular data
         new_node = Node(data)
         current = self.head
         while current:
@@ -97,69 +89,17 @@ Set the next pointer of the current node to the new node.
             current = current.next
         print("Value not found in the list")
 
-# insert node at beginning
-Logic:
-new_node = Node(data): Creates a new node with the provided data.
-new_node.next = self.head: Sets the next attribute of the new node to point to the current head of the list. This ensures that the new node becomes the first node in the list, and its next attribute points to the previous head.
-self.head = new_node: Updates the head attribute of the list to point to the newly inserted node. This makes the new node the first node in the list.
-
-    def begin(self,data):
-        new_node = Node(data)
-        new_node.next = self.head
-        self.head = new_node
-
-#delete node at beginning
-Logic:
-if self.head is not None:: Checks if the linked list is not empty. If the list is empty (i.e., self.head is None), there are no nodes to delete, so no action is needed.
-self.head = self.head.next: If the list is not empty, updates the head attribute of the list to point to the next node after the current head. This effectively removes the current head node from the list.
-
-    def del_begin(self):
+    def beg_replace(self,value):                                         # update value at 1st position
         if self.head is not None:
-            self.head = self.head.next
-
-# delete node from end
-Logic:
-current = self.head: Initializes a variable current to the head of the list. This variable will be used to traverse the list to find the second-to-last node.
-while current.next.next is not None:: Enters a loop that iterates until current reaches the second-to-last node in the list. This is determined by checking if the next attribute of the current node's next node is not None, indicating that there is at least one more node after the current one.
-current = current.next: Within the loop, updates current to point to the next node in the list, moving forward one node at a time.
-current.next = None: Once the loop exits, the current node points to the second-to-last node in the list. To delete the last node, sets the next attribute of the second-to-last node to None, effectively removing the reference to the last node and making it unreachable, thereby deleting it.
-
-    def del_end(self):
-        current = self.head
-        while current.next.next is not None:
-            current = current.next
-        current.next  = None
-
-# delete the node with value
-current = self.head: Initializes a variable current to the head of the list. This variable will be used to traverse the list to find the node with the given value.
-while current.next.data != data:: Enters a loop that iterates until current.next.data matches the given value data. This loop checks the data of the next node in the list.
-current = current.next: Within the loop, updates current to point to the next node in the list, moving forward one node at a time.
-current.next = current.next.next: Once the loop exits, the current node points to the node just before the node to be deleted. To delete the node with the given value, updates the next attribute of current to skip over the node to be deleted, effectively removing it from the list.
-
-    def del_val(self,val):
-        current = self.head
-        while current.next.data != val:
-            current = current.next
-        current.next = current.next.next
---------------------- OR --------------------OR------------------------------OR                   
-def del_val(self, val):
-        current = self.head
-        while current.next:
-          if current.next.data == val:
-            current.next = current.next.next            
-          current = current.next
+            self.head.data = value
    
-
-# delete the node by position.
-
-
+    def end_replace(self,data):                                           # update last node
+        curr = self.head
+        while curr.next.next is not None:
+            curr = curr.next
+        curr.next = Node(data)
+#-----------------------------------------------------------------------------------------------------------------------
 # find the duplicate elements from linked list
-find_duplicates Function:
-Nested Loops: We employ two nested loops to compare elements. The outer loop (current) iterates through the list once. 
-The inner loop (runner) starts from the element after current (current.next) and traverses the remaining list.
-Duplicate Check: Inside the inner loop, if current.data matches runner.data, it indicates a duplicate. In that case, the element's data is printed.
-Early Termination: Once a duplicate is found for current, we use break to exit the inner loop. There's no need to search for more duplicates of the same element further in the list.
-Outer Loop Progress: After checking current with all following elements, the outer loop moves current to the next node, continuing the comparison process
 
 def dup(self):
         current = self.head

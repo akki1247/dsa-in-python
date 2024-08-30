@@ -1,1 +1,111 @@
+class Stack:
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, elt):
+        self.stack.append(elt)
+    
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        else:
+            return "Stack is empty"
+        
+    def is_empty(self):
+        return len(self.stack) == 0
+    
+    def display(self):
+        print(f"Stack: {self.stack}")
+    
+    def size(self):
+        return len(self.stack)
+    
+    def peek(self):
+        if not self.is_empty():
+            return self.stack[-1]
+        else:
+            return "Stack is empty"
+    
+    def clear(self):
+        while not self.is_empty():
+            self.pop()
+    
+    def search(self, num):
+        # Using a temporary stack to search without altering the original stack
+        temp_stack = Stack()
+        found = False
+        
+        while not self.is_empty():
+            elt = self.pop()
+            temp_stack.push(elt)
+            if elt == num:
+                found = True
+                break
+        
+        # Restore the original stack
+        while not temp_stack.is_empty():
+            self.push(temp_stack.pop())        
+        return "Found" if found else "Not Found"
+    
+    def reverse(self):
+        temp_stack = Stack()        
+        while not self.is_empty():
+            temp_stack.push(self.pop())        
+        self.stack = temp_stack.stack
 
+# Example usage
+s = Stack()
+s.push(0)
+s.push(5)
+s.push(6)
+s.display()  # Should display the stack
+print(s.search(8))  # Will return "Not Found"
+s.reverse()
+s.display()  # Should display the reversed stack
+
+# String is plaindrome or not
+
+def is_palindrome(string):
+    stack = Stack()
+    
+    # Push all characters onto the stack
+    for char in string:
+        stack.push(char)
+    
+    # Build the reversed string
+    reversed_string = ""
+    while not stack.is_empty():
+        reversed_string += stack.pop()
+
+    return string == reversed_string
+
+input_string = "MadaM"
+if is_palindrome(input_string):
+    print(f"{input_string} is a palindrome.")
+else:
+    print(f"{input_string} is not a palindrome.")
+
+
+# parenthesis checker
+def is_balanced_parentheses(expression):
+    stack = Stack()
+    open_b = "({["
+    close_b = ")}]"
+    match = {')': '(', '}': '{', ']': '['}
+
+    for char in expression:
+        if char in open_b:
+            stack.push(char)
+        elif char in close_b:
+            if stack.is_empty() or stack.pop() != match[char]:
+                return False
+    
+    return stack.is_empty()
+
+expressions = ["(a + b) * (c + d)", "[{()}]", "(a + b))", "((a + b)", "{[(])}", "{}()", "{()()}"]
+
+for expr in expressions:
+    if is_balanced_parentheses(expr):
+        print(f"The expression '{expr}' is balanced.")
+    else:
+        print(f"The expression '{expr}' is not balanced.")
